@@ -35,4 +35,4 @@ Des exemples d’exécution se trouvent dans le dossier `examples/`.
 ---
 
 ## Licence
-[MIT](LICENSE)
+[MIT Licence](LICENSE)
