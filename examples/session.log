@@ -1,0 +1,15 @@
+# Exemple d’exécution du programme
+
+Système de Gestion des Étudiants
+1. Ajouter un étudiant
+2. Modifier les notes
+3. Supprimer un étudiant
+4. Afficher les statistiques
+5. Quitter
+
+Choix : 1
+Nom : Dupont
+Prénom : Alice
+ID : 101
+Matières (format "Matière,note;Matière,note") : Math,16;Python,14
+✅ Étudiant ajouté.
