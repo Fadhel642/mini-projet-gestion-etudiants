@@ -33,6 +33,6 @@ python src/gestion_etudiants.py
 Des exemples d’exécution se trouvent dans le dossier `examples/`.
 
 ---
-Licence
-MIT (voir fichier LICENSE)
 
+## Licence
+[MIT](LICENSE)
