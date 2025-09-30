@@ -21,14 +21,14 @@ cd mini-projet-gestion-etudiants*
 ```
 ---
 
-Exécution
+## Exécution
 
 ```
 python src/gestion_etudiants.py
 ```
 ---
 
-Exemple
+## Exemple
 
 Des exemples d’exécution se trouvent dans le dossier `examples/`.
 
