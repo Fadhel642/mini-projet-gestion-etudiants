@@ -1,4 +1,6 @@
 # script principal
+
+
 # Ajouter un étudiant
 def ajouter_etudiant(etudiants, id_, nom, prenom, notes):
     if id_ in etudiants:
@@ -38,3 +40,19 @@ def modifier_notes(etudiants, id_, matiere, nouvelle_note):
     # Si on n'a pas trouvé, on ajoute une nouvelle matière
     notes.append((matiere, nouvelle_note))
     print(f"✅ Nouvelle matière ajoutée : {matiere} ({nouvelle_note})")
+
+
+# Statistiques & Calculs
+def moyenne_etudiant(etudiants, id_):
+    if id_ not in etudiants:
+        print("❌ ID introuvable")
+        return None
+    
+    notes = etudiants[id_]["notes"]
+    if not notes:  # si pas de notes
+        print("⚠️ Pas de notes pour cet étudiant")
+        return None
+    
+    total = sum(note for (_, note) in notes)
+    moyenne = total / len(notes)
+    return round(moyenne, 2)  # arrondi à 2 décimales
