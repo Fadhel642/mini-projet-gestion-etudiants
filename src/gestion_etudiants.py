@@ -104,3 +104,18 @@ def etudiants_moyenne_sup(etudiants, seuil=15):
             if moy > seuil:
                 resultats.append((id_, e["nom"], e["prenom"], round(moy, 2)))
     return resultats
+
+def classement(etudiants):
+    resultats = []
+    for id_, e in etudiants.items():
+        notes = e["notes"]
+        if notes:
+            total = sum(note for (_, note) in notes)
+            moy = total / len(notes)
+        else:
+            moy = 0  # si pas de notes, moyenne = 0
+        resultats.append((id_, e["nom"], e["prenom"], round(moy, 2)))
+    
+    # Tri par moyenne décroissante
+    resultats.sort(key=lambda x: x[3], reverse=True)
+    return resultats
