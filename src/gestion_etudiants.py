@@ -166,3 +166,64 @@ def menu():
     print("8. Afficher le classement")
     print("9. Générer et exporter le rapport")
     print("0. Quitter")
+
+
+def main():
+    etudiants = {}
+
+    while True:
+        menu()
+        choix = input("Votre choix : ").strip()
+
+        match choix:
+            case "1":
+                id_ = int(input("ID : "))
+                nom = input("Nom : ")
+                prenom = input("Prénom : ")
+                notes_txt = input("Notes (ex: Math,16;Python,14) : ")
+                notes = []
+                if notes_txt:
+                    for couple in notes_txt.split(";"):
+                        mat, note = couple.split(",")
+                        notes.append((mat.strip(), float(note)))
+                ajouter_etudiant(etudiants, id_, nom, prenom, notes)
+
+            case "2":
+                id_ = int(input("ID : "))
+                matiere = input("Matière : ")
+                note = float(input("Nouvelle note : "))
+                modifier_notes(etudiants, id_, matiere, note)
+
+            case "3":
+                id_ = int(input("ID : "))
+                supprimer_etudiant(etudiants, id_)
+
+            case "4":
+                id_ = int(input("ID : "))
+                moy = moyenne_etudiant(etudiants, id_)
+                if moy is not None:
+                    print("Moyenne :", moy)
+
+            case "5":
+                print(moyennes_par_matiere(etudiants))
+
+            case "6":
+                print("Moyenne promo :", moyenne_promotion(etudiants))
+
+            case "7":
+                print("Étudiants > 15 :", etudiants_moyenne_sup(etudiants, 15))
+
+            case "8":
+                for rang, (id_, nom, prenom, moy) in enumerate(classement(etudiants), start=1):
+                    print(f"{rang}. [{id_}] {nom} {prenom} - {moy}")
+
+            case "9":
+                rapport = generer_rapport(etudiants)
+                exporter_rapport(rapport)
+
+            case "0":
+                print("👋 Au revoir !")
+                break
+
+            case _:
+                print("❌ Choix invalide")
