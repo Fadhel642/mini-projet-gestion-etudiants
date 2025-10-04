@@ -119,3 +119,16 @@ def classement(etudiants):
     # Tri par moyenne décroissante
     resultats.sort(key=lambda x: x[3], reverse=True)
     return resultats
+
+
+# Rapport global
+
+def generer_rapport(etudiants):
+    rapport = {
+        "total_etudiants": len(etudiants),
+        "moyenne_promotion": moyenne_promotion(etudiants),
+        "moyennes_par_matiere": moyennes_par_matiere(etudiants),
+        "classement": classement(etudiants),
+        "etudiants_sup_15": etudiants_moyenne_sup(etudiants, 15)
+    }
+    return rapport
