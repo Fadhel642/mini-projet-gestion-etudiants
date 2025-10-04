@@ -43,6 +43,7 @@ def modifier_notes(etudiants, id_, matiere, nouvelle_note):
 
 
 # Statistiques & Calculs
+
 def moyenne_etudiant(etudiants, id_):
     if id_ not in etudiants:
         print("❌ ID introuvable")
@@ -56,3 +57,21 @@ def moyenne_etudiant(etudiants, id_):
     total = sum(note for (_, note) in notes)
     moyenne = total / len(notes)
     return round(moyenne, 2)  # arrondi à 2 décimales
+
+def moyennes_par_matiere(etudiants):
+    if not etudiants:
+        print("❌ Aucun étudiant dans la base")
+        return {}
+
+    # dictionnaire pour accumuler les totaux
+    totaux = {}
+    comptes = {}
+
+    for e in etudiants.values():
+        for matiere, note in e["notes"]:
+            totaux[matiere] = totaux.get(matiere, 0) + note
+            comptes[matiere] = comptes.get(matiere, 0) + 1
+
+    # calcul des moyennes
+    moyennes = {m: round(totaux[m] / comptes[m], 2) for m in totaux}
+    return moyennes
