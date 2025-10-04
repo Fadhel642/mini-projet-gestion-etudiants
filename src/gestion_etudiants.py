@@ -93,3 +93,14 @@ def moyenne_promotion(etudiants):
         return None
 
     return round(sum(moyennes) / len(moyennes), 2)
+
+def etudiants_moyenne_sup(etudiants, seuil=15):
+    resultats = []
+    for id_, e in etudiants.items():
+        notes = e["notes"]
+        if notes:
+            total = sum(note for (_, note) in notes)
+            moy = total / len(notes)
+            if moy > seuil:
+                resultats.append((id_, e["nom"], e["prenom"], round(moy, 2)))
+    return resultats
