@@ -121,7 +121,7 @@ def classement(etudiants):
     return resultats
 
 
-# Rapport global
+# Rapport global & export (txt)
 
 def generer_rapport(etudiants):
     rapport = {
@@ -132,3 +132,24 @@ def generer_rapport(etudiants):
         "etudiants_sup_15": etudiants_moyenne_sup(etudiants, 15)
     }
     return rapport
+
+def exporter_rapport(rapport, chemin="rapport_promotion.txt"):
+    with open(chemin, "w", encoding="utf-8") as f:
+        f.write("=== Rapport global ===\n")
+        f.write(f"Nombre total d'étudiants : {rapport['total_etudiants']}\n")
+        f.write(f"Moyenne générale de la promotion : {rapport['moyenne_promotion']}\n\n")
+
+        f.write("-- Moyennes par matière --\n")
+        for m, v in rapport["moyennes_par_matiere"].items():
+            f.write(f"{m} : {v}\n")
+        f.write("\n")
+
+        f.write("-- Classement des étudiants --\n")
+        for rang, (id_, nom, prenom, moy) in enumerate(rapport["classement"], start=1):
+            f.write(f"{rang}. [{id_}] {nom} {prenom} - {moy}\n")
+        f.write("\n")
+
+        f.write("-- Étudiants avec moyenne > 15 --\n")
+        for id_, nom, prenom, moy in rapport["etudiants_sup_15"]:
+            f.write(f"[{id_}] {nom} {prenom} - {moy}\n")
+    print(f"✅ Rapport exporté dans {chemin}")
