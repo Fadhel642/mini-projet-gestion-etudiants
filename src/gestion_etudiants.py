@@ -19,3 +19,22 @@ def supprimer_etudiant(etudiants, id_):
         print(f"✅ Étudiant {id_} supprimé")
     else:
         print("❌ ID introuvable")
+
+# Modifier les notes
+def modifier_notes(etudiants, id_, matiere, nouvelle_note):
+    if id_ not in etudiants:
+        print("❌ ID introuvable")
+        return
+    
+    notes = etudiants[id_]["notes"]
+    
+    # Chercher si la matière existe déjà
+    for i, (m, n) in enumerate(notes):
+        if m == matiere:
+            notes[i] = (matiere, nouvelle_note)  # on met à jour
+            print(f"✅ Note mise à jour pour {matiere}: {nouvelle_note}")
+            return
+    
+    # Si on n'a pas trouvé, on ajoute une nouvelle matière
+    notes.append((matiere, nouvelle_note))
+    print(f"✅ Nouvelle matière ajoutée : {matiere} ({nouvelle_note})")
