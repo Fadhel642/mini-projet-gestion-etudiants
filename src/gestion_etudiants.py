@@ -153,3 +153,16 @@ def exporter_rapport(rapport, chemin="rapport_promotion.txt"):
         for id_, nom, prenom, moy in rapport["etudiants_sup_15"]:
             f.write(f"[{id_}] {nom} {prenom} - {moy}\n")
     print(f"✅ Rapport exporté dans {chemin}")
+
+def menu():
+    print("\n=== Système de Gestion des Étudiants ===")
+    print("1. Ajouter un étudiant")
+    print("2. Modifier les notes d’un étudiant")
+    print("3. Supprimer un étudiant")
+    print("4. Afficher la moyenne d’un étudiant")
+    print("5. Afficher les moyennes par matière")
+    print("6. Afficher la moyenne de la promotion")
+    print("7. Afficher les étudiants avec moyenne > 15")
+    print("8. Afficher le classement")
+    print("9. Générer et exporter le rapport")
+    print("0. Quitter")
