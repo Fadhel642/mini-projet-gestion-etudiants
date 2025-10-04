@@ -75,3 +75,21 @@ def moyennes_par_matiere(etudiants):
     # calcul des moyennes
     moyennes = {m: round(totaux[m] / comptes[m], 2) for m in totaux}
     return moyennes
+
+def moyenne_promotion(etudiants):
+    if not etudiants:
+        print("❌ Aucun étudiant dans la base")
+        return None
+
+    moyennes = []
+    for id_, e in etudiants.items():
+        notes = e["notes"]
+        if notes:  # éviter les étudiants sans notes
+            total = sum(note for (_, note) in notes)
+            moy = total / len(notes)
+            moyennes.append(moy)
+
+    if not moyennes:
+        return None
+
+    return round(sum(moyennes) / len(moyennes), 2)
