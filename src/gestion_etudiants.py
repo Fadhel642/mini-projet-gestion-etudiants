@@ -181,6 +181,44 @@ def exporter_rapport(rapport, chemin="rapport_promotion.txt"):
 
     print(f"✅ Rapport exporté dans {chemin}")
 
+def recherche_avancee(etudiants, nom_contient=None, matiere=None, note_min=None):
+    resultats = []
+
+    for e in etudiants.values():
+        # Filtrage nom/prénom
+        if nom_contient:
+            if nom_contient.lower() not in (e["nom"] + " " + e["prenom"]).lower():
+                continue
+
+        # Moyenne générale
+        notes = e["notes"]
+        moy = sum(note for _, note in notes) / len(notes) if notes else None
+
+        # Filtrage matière + note minimale
+        if matiere:
+            note_matiere = None
+            for m, n in notes:
+                if m == matiere:
+                    note_matiere = n
+                    break
+            if note_matiere is None or (note_min is not None and note_matiere < note_min):
+                continue
+        else:
+            if note_min is not None and (moy is None or moy < note_min):
+                continue
+
+        resultats.append({
+            "id": e["id"],
+            "nom": e["nom"],
+            "prenom": e["prenom"],
+            "moyenne": round(moy, 2) if moy is not None else None
+        })
+
+    # Tri par moyenne décroissante
+    resultats.sort(key=lambda r: (r["moyenne"] or -1), reverse=True)
+    return resultats
+
+
 def menu():
     print("\n=== Système de Gestion des Étudiants ===")
     print("1. Ajouter un étudiant")
@@ -192,6 +230,8 @@ def menu():
     print("7. Afficher les étudiants avec moyenne > 15")
     print("8. Afficher le classement")
     print("9. Générer et exporter le rapport")
+    print("10. Recherche avancée")
+
     print("0. Quitter")
 
 
@@ -263,6 +303,21 @@ def main():
                     exporter_rapport(rapport)
                 else:
                     print("❌ Aucun étudiant dans la base.")
+
+            case "10":
+                nom_filtre = input("Nom/Prénom contient (laisser vide pour ignorer) : ").strip() or None
+                matiere = input("Matière (laisser vide pour ignorer) : ").strip() or None
+                note_txt = input("Note minimale (laisser vide pour ignorer) : ").strip()
+                note_min = float(note_txt) if note_txt else None
+
+                res = recherche_avancee(etudiants, nom_filtre, matiere, note_min)
+                if res:
+                    print("🔎 Résultats :")
+                    for r in res:
+                        moy = r["moyenne"] if r["moyenne"] is not None else "(pas de notes)"
+                        print(f"[{r['id']}] {r['nom']} {r['prenom']} - Moyenne : {moy}")
+                else:
+                    print("❌ Aucun étudiant trouvé.")
 
             case "0":
                 print("👋 Au revoir !")
