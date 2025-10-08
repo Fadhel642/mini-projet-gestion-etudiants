@@ -291,7 +291,12 @@ def main():
                 print("Moyenne promo :", moyenne_promotion(etudiants))
 
             case "7":
-                print("Étudiants > 15 :", etudiants_moyenne_sup(etudiants, 15))
+                sup = etudiants_moyenne_sup(etudiants, 15)
+                if sup:
+                    for i, (id_, nom, prenom, moy) in enumerate(sup, start=1):
+                        print(f"{i}. [{id_}] {nom} {prenom} - {moy}")
+                else:
+                    print("❌ Aucun étudiant trouvé avec moyenne > 15")
 
             case "8":
                 for rang, (id_, nom, prenom, moy) in enumerate(classement(etudiants), start=1):
@@ -314,9 +319,9 @@ def main():
                 res = recherche_avancee(etudiants, nom_filtre, matiere, note_min)
                 if res:
                     print("🔎 Résultats :")
-                    for r in res:
+                    for i, r in enumerate(res, start=1):
                         moy = r["moyenne"] if r["moyenne"] is not None else "(pas de notes)"
-                        print(f"[{r['id']}] {r['nom']} {r['prenom']} - Moyenne : {moy}")
+                        print(f"{i}. [{r['id']}] {r['nom']} {r['prenom']} - Moyenne : {moy}")
                 else:
                     print("❌ Aucun étudiant trouvé.")
 
