@@ -2,8 +2,8 @@
 
 
 # Ajouter un étudiant
-def ajouter_etudiant(etudiants, id_, nom, prenom, notes):
-    if id_ in etudiants:
+def ajouter_etudiant(etudiants, set_ids, id_, id_, nom, prenom, notes):
+    if id_ in set_ids:
         print("❌ ID déjà utilisé")
         return
     etudiants[id_] = {
@@ -12,12 +12,14 @@ def ajouter_etudiant(etudiants, id_, nom, prenom, notes):
         "prenom": prenom,
         "notes": notes
     }
+    set_ids.add(id_)
     print("✅ Étudiant ajouté :", nom, prenom)
 
 # Supprimer un étudiant
-def supprimer_etudiant(etudiants, id_):
+def supprimer_etudiant(etudiants, set_ids, id_):
     if id_ in etudiants:
         etudiants.pop(id_)
+        set_ids.remove(id_)
         print(f"✅ Étudiant {id_} supprimé")
     else:
         print("❌ ID introuvable")
@@ -170,6 +172,7 @@ def menu():
 
 def main():
     etudiants = {}
+    set_ids = set()
 
     while True:
         menu()
@@ -186,7 +189,7 @@ def main():
                     for couple in notes_txt.split(";"):
                         mat, note = couple.split(",")
                         notes.append((mat.strip(), float(note)))
-                ajouter_etudiant(etudiants, id_, nom, prenom, notes)
+                ajouter_etudiant(etudiants,set_ids, id_, nom, prenom, notes)
 
             case "2":
                 id_ = int(input("ID : "))
@@ -196,7 +199,7 @@ def main():
 
             case "3":
                 id_ = int(input("ID : "))
-                supprimer_etudiant(etudiants, id_)
+                supprimer_etudiant(etudiants, set_ids, id_)
 
             case "4":
                 id_ = int(input("ID : "))
