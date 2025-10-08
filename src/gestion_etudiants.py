@@ -1,10 +1,11 @@
 # script principal
+
 import json
 MATIERES_DISPONIBLES = frozenset({"Math", "Python", "Physique", "Anglais"})
 
 
 # Ajouter un étudiant
-def ajouter_etudiant(etudiants, set_ids, id_, id_, nom, prenom, notes):
+def ajouter_etudiant(etudiants, set_ids, id_, nom, prenom, notes):
     if id_ in set_ids:
         print("❌ ID déjà utilisé")
         return
