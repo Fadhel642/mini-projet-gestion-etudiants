@@ -1,11 +1,20 @@
 # script principal
 
+MATIERES_DISPONIBLES = frozenset({"Math", "Python", "Physique", "Anglais"})
+
 
 # Ajouter un étudiant
 def ajouter_etudiant(etudiants, set_ids, id_, id_, nom, prenom, notes):
     if id_ in set_ids:
         print("❌ ID déjà utilisé")
         return
+    
+    # Vérification des matières
+    for matiere, note in notes:
+        if matiere not in MATIERES_DISPONIBLES:
+            print(f"❌ Matière '{matiere}' non autorisée. Matières valides: {MATIERES_DISPONIBLES}")
+            return
+   
     etudiants[id_] = {
         "id": id_,
         "nom": nom,
@@ -28,6 +37,10 @@ def supprimer_etudiant(etudiants, set_ids, id_):
 def modifier_notes(etudiants, id_, matiere, nouvelle_note):
     if id_ not in etudiants:
         print("❌ ID introuvable")
+        return
+    
+    if matiere not in MATIERES_DISPONIBLES:
+        print(f"❌ Matière '{matiere}' non autorisée. Matières valides: {MATIERES_DISPONIBLES}")
         return
     
     notes = etudiants[id_]["notes"]
