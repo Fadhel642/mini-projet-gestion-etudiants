@@ -193,33 +193,44 @@ def main():
 
         match choix:
             case "1":
-                id_ = int(input("ID : "))
-                nom = input("Nom : ")
-                prenom = input("Prénom : ")
-                notes_txt = input("Notes (ex: Math,16;Python,14) : ")
-                notes = []
-                if notes_txt:
-                    for couple in notes_txt.split(";"):
-                        mat, note = couple.split(",")
-                        notes.append((mat.strip(), float(note)))
-                ajouter_etudiant(etudiants,set_ids, id_, nom, prenom, notes)
-
+                try:
+                    id_ = int(input("ID : "))
+                    nom = input("Nom : ")
+                    prenom = input("Prénom : ")
+                    notes_txt = input("Notes (ex: Math,16;Python,14) : ")
+                    notes = []
+                    if notes_txt:
+                        for couple in notes_txt.split(";"):
+                            mat, note = couple.split(",")
+                            notes.append((mat.strip(), float(note)))
+                    ajouter_etudiant(etudiants,set_ids, id_, nom, prenom, notes)
+                except ValueError:
+                    print("❌ Erreur : ID ou note invalide. Veuillez réessayer.")
             case "2":
-                id_ = int(input("ID : "))
-                matiere = input("Matière : ")
-                note = float(input("Nouvelle note : "))
-                modifier_notes(etudiants, id_, matiere, note)
+                try:
+                    id_ = int(input("ID : "))
+                    matiere = input("Matière : ")
+                    note = float(input("Nouvelle note : "))
+                    modifier_notes(etudiants, id_, matiere, note)
+                except ValueError:
+                    print("❌ Erreur : ID ou note invalide.")
 
             case "3":
-                id_ = int(input("ID : "))
-                supprimer_etudiant(etudiants, set_ids, id_)
+                try:
+                    id_ = int(input("ID : "))
+                    supprimer_etudiant(etudiants, set_ids, id_)
+                except ValueError:
+                    print("❌ Erreur : ID invalide.")
 
             case "4":
-                id_ = int(input("ID : "))
-                moy = moyenne_etudiant(etudiants, id_)
-                if moy is not None:
-                    print("Moyenne :", moy)
-
+                try:
+                    id_ = int(input("ID : "))
+                    moy = moyenne_etudiant(etudiants, id_)
+                    if moy is not None:
+                        print("Moyenne :", moy)
+                except ValueError:
+                    print("❌ Erreur : ID invalide.")
+                    
             case "5":
                 print(moyennes_par_matiere(etudiants))
 
