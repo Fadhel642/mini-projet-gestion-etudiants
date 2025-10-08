@@ -1,5 +1,5 @@
 # script principal
-
+import json
 MATIERES_DISPONIBLES = frozenset({"Math", "Python", "Physique", "Anglais"})
 
 
@@ -139,12 +139,30 @@ def classement(etudiants):
 # Rapport global & export (txt)
 
 def generer_rapport(etudiants):
+    total = len(etudiants)
+    if total == 0:
+        return {}
+    
+    # Moyennes par étudiant
+    moyennes = []
+    for e in etudiants.values():
+        notes = e["notes"]
+        if notes:
+            moy = sum(note for _, note in notes) / len(notes)
+        else:
+            moy = 0
+        moyennes.append((e["id"], e["nom"], e["prenom"], round(moy, 2)))
+    
+    # Classement
+    classement = sorted(moyennes, key=lambda x: x[3], reverse=True)
+
+    # Moyenne générale promo
+    moyenne_promo = round(sum(m[3] for m in classement) / total, 2)
+
     rapport = {
-        "total_etudiants": len(etudiants),
-        "moyenne_promotion": moyenne_promotion(etudiants),
-        "moyennes_par_matiere": moyennes_par_matiere(etudiants),
-        "classement": classement(etudiants),
-        "etudiants_sup_15": etudiants_moyenne_sup(etudiants, 15)
+        "total_etudiants": total,
+        "moyenne_promotion": moyenne_promo,
+        "classement": classement
     }
     return rapport
 
@@ -154,19 +172,13 @@ def exporter_rapport(rapport, chemin="rapport_promotion.txt"):
         f.write(f"Nombre total d'étudiants : {rapport['total_etudiants']}\n")
         f.write(f"Moyenne générale de la promotion : {rapport['moyenne_promotion']}\n\n")
 
-        f.write("-- Moyennes par matière --\n")
-        for m, v in rapport["moyennes_par_matiere"].items():
-            f.write(f"{m} : {v}\n")
-        f.write("\n")
-
-        f.write("-- Classement des étudiants --\n")
+        f.write("-- Classement --\n")
         for rang, (id_, nom, prenom, moy) in enumerate(rapport["classement"], start=1):
             f.write(f"{rang}. [{id_}] {nom} {prenom} - {moy}\n")
-        f.write("\n")
 
-        f.write("-- Étudiants avec moyenne > 15 --\n")
-        for id_, nom, prenom, moy in rapport["etudiants_sup_15"]:
-            f.write(f"[{id_}] {nom} {prenom} - {moy}\n")
+        f.write("\n-- JSON-like --\n")
+        f.write(json.dumps(rapport, indent=2, ensure_ascii=False))
+
     print(f"✅ Rapport exporté dans {chemin}")
 
 def menu():
@@ -230,7 +242,7 @@ def main():
                         print("Moyenne :", moy)
                 except ValueError:
                     print("❌ Erreur : ID invalide.")
-                    
+
             case "5":
                 print(moyennes_par_matiere(etudiants))
 
@@ -246,7 +258,11 @@ def main():
 
             case "9":
                 rapport = generer_rapport(etudiants)
-                exporter_rapport(rapport)
+                if rapport:
+                    print("📊 Rapport global :", json.dumps(rapport, indent=2, ensure_ascii=False))
+                    exporter_rapport(rapport)
+                else:
+                    print("❌ Aucun étudiant dans la base.")
 
             case "0":
                 print("👋 Au revoir !")
