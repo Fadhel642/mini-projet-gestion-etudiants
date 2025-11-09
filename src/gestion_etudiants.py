@@ -7,13 +7,13 @@ MATIERES_DISPONIBLES = frozenset({"Math", "Python", "Physique", "Anglais"})
 # Ajouter un étudiant
 def ajouter_etudiant(etudiants, set_ids, id_, nom, prenom, notes):
     if id_ in set_ids:
-        print("❌ ID déjà utilisé")
+        print("ID déjà utilisé")
         return
     
     # Vérification des matières
     for matiere, note in notes:
         if matiere not in MATIERES_DISPONIBLES:
-            print(f"❌ Matière '{matiere}' non autorisée. Matières valides: {MATIERES_DISPONIBLES}")
+            print(f"Matière '{matiere}' non autorisée. Matières valides: {MATIERES_DISPONIBLES}")
             return
    
     etudiants[id_] = {
@@ -23,25 +23,25 @@ def ajouter_etudiant(etudiants, set_ids, id_, nom, prenom, notes):
         "notes": notes
     }
     set_ids.add(id_)
-    print("✅ Étudiant ajouté :", nom, prenom)
+    print("Étudiant ajouté :", nom, prenom)
 
 # Supprimer un étudiant
 def supprimer_etudiant(etudiants, set_ids, id_):
     if id_ in etudiants:
         etudiants.pop(id_)
         set_ids.remove(id_)
-        print(f"✅ Étudiant {id_} supprimé")
+        print(f"Étudiant {id_} supprimé")
     else:
-        print("❌ ID introuvable")
+        print("ID introuvable")
 
 # Modifier les notes
 def modifier_notes(etudiants, id_, matiere, nouvelle_note):
     if id_ not in etudiants:
-        print("❌ ID introuvable")
+        print("ID introuvable")
         return
     
     if matiere not in MATIERES_DISPONIBLES:
-        print(f"❌ Matière '{matiere}' non autorisée. Matières valides: {MATIERES_DISPONIBLES}")
+        print(f"Matière '{matiere}' non autorisée. Matières valides: {MATIERES_DISPONIBLES}")
         return
     
     notes = etudiants[id_]["notes"]
@@ -50,24 +50,24 @@ def modifier_notes(etudiants, id_, matiere, nouvelle_note):
     for i, (m, n) in enumerate(notes):
         if m == matiere:
             notes[i] = (matiere, nouvelle_note)  # on met à jour
-            print(f"✅ Note mise à jour pour {matiere}: {nouvelle_note}")
+            print(f"Note mise à jour pour {matiere}: {nouvelle_note}")
             return
     
     # Si on n'a pas trouvé, on ajoute une nouvelle matière
     notes.append((matiere, nouvelle_note))
-    print(f"✅ Nouvelle matière ajoutée : {matiere} ({nouvelle_note})")
+    print(f"Nouvelle matière ajoutée : {matiere} ({nouvelle_note})")
 
 
 # Statistiques & Calculs
 
 def moyenne_etudiant(etudiants, id_):
     if id_ not in etudiants:
-        print("❌ ID introuvable")
+        print("ID introuvable")
         return None
     
     notes = etudiants[id_]["notes"]
     if not notes:  # si pas de notes
-        print("⚠️ Pas de notes pour cet étudiant")
+        print("Pas de notes pour cet étudiant")
         return None
     
     total = sum(note for (_, note) in notes)
@@ -76,7 +76,7 @@ def moyenne_etudiant(etudiants, id_):
 
 def moyennes_par_matiere(etudiants):
     if not etudiants:
-        print("❌ Aucun étudiant dans la base")
+        print("Aucun étudiant dans la base")
         return {}
 
     # dictionnaire pour accumuler les totaux
@@ -94,7 +94,7 @@ def moyennes_par_matiere(etudiants):
 
 def moyenne_promotion(etudiants):
     if not etudiants:
-        print("❌ Aucun étudiant dans la base")
+        print("Aucun étudiant dans la base")
         return None
 
     moyennes = []
@@ -180,7 +180,7 @@ def exporter_rapport(rapport, chemin="rapport_promotion.txt"):
         f.write("\n-- JSON-like --\n")
         f.write(json.dumps(rapport, indent=2, ensure_ascii=False))
 
-    print(f"✅ Rapport exporté dans {chemin}")
+    print(f"Rapport exporté dans {chemin}")
 
 def recherche_avancee(etudiants, nom_contient=None, matiere=None, note_min=None):
     resultats = []
@@ -258,7 +258,7 @@ def main():
                             notes.append((mat.strip(), float(note)))
                     ajouter_etudiant(etudiants,set_ids, id_, nom, prenom, notes)
                 except ValueError:
-                    print("❌ Erreur : ID ou note invalide. Veuillez réessayer.")
+                    print("Erreur : ID ou note invalide. Veuillez réessayer.")
             case "2":
                 try:
                     id_ = int(input("ID : "))
@@ -266,14 +266,14 @@ def main():
                     note = float(input("Nouvelle note : "))
                     modifier_notes(etudiants, id_, matiere, note)
                 except ValueError:
-                    print("❌ Erreur : ID ou note invalide.")
+                    print("Erreur : ID ou note invalide.")
 
             case "3":
                 try:
                     id_ = int(input("ID : "))
                     supprimer_etudiant(etudiants, set_ids, id_)
                 except ValueError:
-                    print("❌ Erreur : ID invalide.")
+                    print("Erreur : ID invalide.")
 
             case "4":
                 try:
@@ -282,7 +282,7 @@ def main():
                     if moy is not None:
                         print("Moyenne :", moy)
                 except ValueError:
-                    print("❌ Erreur : ID invalide.")
+                    print("Erreur : ID invalide.")
 
             case "5":
                 print(moyennes_par_matiere(etudiants))
@@ -296,7 +296,7 @@ def main():
                     for i, (id_, nom, prenom, moy) in enumerate(sup, start=1):
                         print(f"{i}. [{id_}] {nom} {prenom} - {moy}")
                 else:
-                    print("❌ Aucun étudiant trouvé avec moyenne > 15")
+                    print("Aucun étudiant trouvé avec moyenne > 15")
 
             case "8":
                 for rang, (id_, nom, prenom, moy) in enumerate(classement(etudiants), start=1):
@@ -305,10 +305,10 @@ def main():
             case "9":
                 rapport = generer_rapport(etudiants)
                 if rapport:
-                    print("📊 Rapport global :", json.dumps(rapport, indent=2, ensure_ascii=False))
+                    print("Rapport global :", json.dumps(rapport, indent=2, ensure_ascii=False))
                     exporter_rapport(rapport)
                 else:
-                    print("❌ Aucun étudiant dans la base.")
+                    print("Aucun étudiant dans la base.")
 
             case "10":
                 nom_filtre = input("Nom/Prénom contient (laisser vide pour ignorer) : ").strip() or None
@@ -318,16 +318,19 @@ def main():
 
                 res = recherche_avancee(etudiants, nom_filtre, matiere, note_min)
                 if res:
-                    print("🔎 Résultats :")
+                    print("Résultats :")
                     for i, r in enumerate(res, start=1):
                         moy = r["moyenne"] if r["moyenne"] is not None else "(pas de notes)"
                         print(f"{i}. [{r['id']}] {r['nom']} {r['prenom']} - Moyenne : {moy}")
                 else:
-                    print("❌ Aucun étudiant trouvé.")
+                    print("Aucun étudiant trouvé.")
 
             case "0":
-                print("👋 Au revoir !")
+                print("Au revoir !")
                 break
 
             case _:
-                print("❌ Choix invalide")
+                print("Choix invalide")
+                
+if __name__ == "__main__":
+    main()
