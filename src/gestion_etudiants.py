@@ -52,6 +52,6 @@ def modifier_notes(etudiants, id_, matiere, nouvelle_note):
             notes[i] = (matiere, nouvelle_note)  # on met à jour
             print(f"Note mise à jour pour {matiere}: {nouvelle_note}")
             return
-    
+    ------
 
 
